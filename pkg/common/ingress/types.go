@@ -21,6 +21,7 @@ import (
 	"github.com/jcmoraisjr/haproxy-ingress/pkg/common/ingress/annotations/hsts"
 	"github.com/jcmoraisjr/haproxy-ingress/pkg/common/ingress/annotations/secureupstream"
 	"github.com/jcmoraisjr/haproxy-ingress/pkg/common/ingress/annotations/snippet"
+	"github.com/jcmoraisjr/haproxy-ingress/pkg/common/ingress/annotations/sslpassthrough"
 	"time"
 
 	"github.com/spf13/pflag"
@@ -262,7 +263,7 @@ type Server struct {
 	Hostname string `json:"hostname"`
 	// SSLPassthrough indicates if the TLS termination is realized in
 	// the server or in the remote endpoint
-	SSLPassthrough bool `json:"sslPassthrough"`
+	SSLPassthrough sslpassthrough.Config `json:"sslPassthrough"`
 	// SSLCertificate path to the SSL certificate on disk
 	SSLCertificate string `json:"sslCertificate"`
 	// SSLExpireTime has the expire date of this certificate
@@ -318,6 +319,8 @@ type Location struct {
 	Ingress *extensions.Ingress `json:"ingress"`
 	// Backend describes the name of the backend to use.
 	Backend string `json:"backend"`
+	// HTTPPassBackend describes the optional name of the plain http backend of a ssl passthrough server.
+	HTTPPassBackend string `json:"httpPassBackend"`
 	// Service describes the referenced services from the ingress
 	Service *apiv1.Service `json:"service,omitempty"`
 	// Port describes to which port from the service
@@ -391,6 +394,8 @@ type SSLPassthroughBackend struct {
 	Port    intstr.IntOrString `json:"port"`
 	// Backend describes the endpoints to use.
 	Backend string `json:"namespace,omitempty"`
+	// HTTPPassBackend describes the optional name of the plain http backend of a ssl passthrough server.
+	HTTPPassBackend string `json:"httpPassBackend"`
 	// Hostname returns the FQDN of the server
 	Hostname string `json:"hostname"`
 }

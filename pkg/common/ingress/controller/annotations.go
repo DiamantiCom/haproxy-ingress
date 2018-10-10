@@ -203,9 +203,9 @@ func (e *annotationExtractor) BlueGreen(ing *extensions.Ingress) *bluegreen.Conf
 	return val.(*bluegreen.Config)
 }
 
-func (e *annotationExtractor) SSLPassthrough(ing *extensions.Ingress) bool {
+func (e *annotationExtractor) SSLPassthrough(ing *extensions.Ingress) *sslpassthrough.Config {
 	val, _ := e.annotations[sslPassthrough].Parse(ing)
-	return val.(bool)
+	return val.(*sslpassthrough.Config)
 }
 
 func (e *annotationExtractor) ConfigurationSnippet(ing *extensions.Ingress) snippet.Config {
